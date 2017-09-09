@@ -1,1 +1,3 @@
-web: gunicorn draft_lab.wsgi --log-file -
+
+web: gunicorn praktikum.wsgi --log-file -
+
