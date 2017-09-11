@@ -1,3 +1,5 @@
+[![pipeline status](https://gitlab.com/keziatesiman/intro-to-TDD/badges/master/pipeline.svg)](https://gitlab.com/keziatesiman/intro-to-TDD/commits/master)
+
 
 # Tutorials and Assignment Repository
 
