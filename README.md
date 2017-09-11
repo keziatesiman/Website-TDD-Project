@@ -1,5 +1,5 @@
 [![pipeline status](https://gitlab.com/keziatesiman/intro-to-TDD/badges/master/pipeline.svg)](https://gitlab.com/keziatesiman/intro-to-TDD/commits/master)
-
+[![coverage report](https://gitlab.com/keziatesiman/intro-to-TDD/badges/master/coverage.svg)](https://gitlab.com/keziatesiman/intro-to-TDD/commits/master)
 
 # Tutorials and Assignment Repository
 
