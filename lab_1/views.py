@@ -4,7 +4,7 @@ from datetime import datetime, date
 # Enter your name here
 mhs_name = 'Kezia Irene' # TODO Implement this
 curr_year = int(datetime.now().strftime("%Y"))
-birth_date = date() #TODO Implement this, format (Year, Month, Date)
+birth_date = date(1998,10,15) #TODO Implement this, format (Year, Month, Date)
 # Create your views here.
 def index(request):
     response = {'name': mhs_name, 'age': calculate_age(birth_date.year)}

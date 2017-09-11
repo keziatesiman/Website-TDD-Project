@@ -5,4 +5,5 @@ from .views import index
 
 urlpatterns = [
 #TODO Implement this
+	url(r'^$', index, name='index'),
 ]
