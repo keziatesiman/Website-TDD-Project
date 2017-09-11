@@ -8,5 +8,5 @@ bio_dict = [{'subject' : 'Name', 'value' : mhs_name},\
     {'subject' : 'Sex', 'value' : 'Female'}]
 
 def index(request):
-    response = {'bio_dict' : bio_dict}
+    response = {'bio_dict':bio_dict}
     return render(request, 'description_lab2addon.html', response)
