@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from .views import index
-from .views import index, add_message
+from .views import index, message_post
 
 #url for app, add your URL Configuration
 

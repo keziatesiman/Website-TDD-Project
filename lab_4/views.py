@@ -14,7 +14,6 @@ def index(request):
     html = 'lab_4/lab_4.html'
     #TODO Implement, isilah dengan 6 kata yang mendeskripsikan anda
     response['about_me'] = about_me
-    return render(request, html, response)
 
     response['message_form'] = Message_Form
     return render(request, html, response)
