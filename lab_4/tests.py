@@ -7,7 +7,7 @@ from lab_1.views import mhs_name
 from .models import Message
 from .forms import Message_Form
 #from .views import index, message_post
-from .views import index, message_table, about_me, landing_page_content
+from .views import index, message_post, message_table, about_me, landing_page_content
 
 
 # Create your tests here.
@@ -99,7 +99,7 @@ class Lab4UnitTest(TestCase):
             self.assertIn(data,html_response)
 
         self.assertIn('Anonymous', html_response)
-        self.assertIn(message_anonymous, html_response
+        self.assertIn(message_anonymous, html_response)
 
 
 
