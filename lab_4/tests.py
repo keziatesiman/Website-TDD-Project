@@ -101,6 +101,23 @@ class Lab4UnitTest(TestCase):
         self.assertIn('Anonymous', html_response)
         self.assertIn(message_anonymous, html_response)
 
+    #adding a new test case that covered __str__ testing
+    def test_lab_4_str_is_equal_to_message(self):
+        name = mhs_name
+        email = 'test123@gmail.com'
+        message = 'this is another test'
+        test_message = Message.objects.create(name=name, email=email, message=message)
+        self.assertEqual(str(test_message), message)
+
+    def test_lab_4_navbar_and_copyright_is_here(self):
+        request = HttpRequest()
+        response = index(request)
+        html_response = response.content.decode('utf8')
+        self.assertIn('<nav class="navbar navbar-default navbar-static-top">', html_response)
+        self.assertIn('&copy;', html_response)
+
+
+
 
 
 
