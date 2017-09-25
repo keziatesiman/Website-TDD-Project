@@ -32,5 +32,5 @@ urlpatterns = [
     url(r'^lab-3/', include(lab_3,namespace='lab-3')),
     url(r'^lab-4/', include(lab_4, namespace='lab-4')),
 
-    url(r'^$', RedirectView.as_view(url= '/lab-2/', permanent=True), name='redirect_landing_page')
+    url(r'^$', RedirectView.as_view(url= '/lab-4/', permanent='true'), name='redirect_landing_page')
 ]

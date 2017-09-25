@@ -6,18 +6,26 @@
     <meta name="description" content="LAB 4">
     <meta name="author" content="{{author}}">
     <!-- bootstrap csss -->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">    
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
+    <link href="{% static 'css/lab_4.css' %}" rel="stylesheet">
+
+
+  
 
     <title> 
         {% block title %} Lab 4 By {{author}}{% endblock %}
     </title>
 </head>
 
-<body>
+<body style="background-image: url(https://wallpapercave.com/wp/PLfMD50.jpg)">
     <header>
         {% include "lab_4/partials/header.html" %}
     </header>
     <content>
+        <div class="container col-md-12">
+            <img src="{% static 'KEZIA.JPG' %}" class="img-circle" widht="200" height="200">
+        </div>
         <div class="container">
             {% block content %}
                 <!-- content goes here -->
