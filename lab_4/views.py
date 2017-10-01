@@ -36,7 +36,7 @@ def message_table(request):
     message = Message.objects.all()
     response['message'] = message
     html = 'lab_4/table.html'
-    return render(request, html , response)
+    return render(request, html,response)
 
 
 # Create your views here.
