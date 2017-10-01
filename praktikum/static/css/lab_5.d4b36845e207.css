@@ -211,10 +211,3 @@ footer p{
 .to-do-list .to-do-list-delete {
   bottom: -50px;
 }
-
-.navbar-static-top {
-    position:fixed;
-    background:pink;
-    width:100%;
-    top:0;
-}
