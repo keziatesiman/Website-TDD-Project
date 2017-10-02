@@ -168,6 +168,12 @@ footer p{
   margin-left: -15px;
 }
 
+.to-do-list:hover {
+    box-shadow: 0 0 45px rgba(0, 0, 0, 0.75);
+    transform: translateY(-5px);
+    transition: box-shadow transform 0.5s ease-in-out;
+}
+
 
 .to-do-list .to-do-list-title {
   font-size: 20px;

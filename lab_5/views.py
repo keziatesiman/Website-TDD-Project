@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import Todo_Form
 from .models import Todo
+from django.shortcuts import get_object_or_404
+from django.core.urlresolvers import reverse
+
 
 # Create your views here.
 response = {}
@@ -23,3 +26,7 @@ def add_todo(request):
         return HttpResponseRedirect('/lab-5/')
     else:
         return HttpResponseRedirect('/lab-5/')
+
+def delete(request, id):
+    get_object_or_404(Todo, pk=id).delete()
+    return HttpResponseRedirect('/lab-5/')

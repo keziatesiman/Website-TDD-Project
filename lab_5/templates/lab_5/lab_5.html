@@ -32,7 +32,9 @@
                                 {{data.description}}
                             </div>
                             <div class="to-do-list-delete">
-                                <div class="to-do-list-delete-button" data-id="{{data.id}}">Delete</div>
+                                <a href="{% url 'lab-5:delete' id=data.id %}">
+                                    <div class="to-do-list-delete-button" data-id="{{data.id}}">Delete</div>
+                                </a>
                             </div>
                         </div>
                     </div>
