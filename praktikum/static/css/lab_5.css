@@ -88,16 +88,8 @@ footer p{
   flex-basis: 25%;
 }
 
-/* styling responsive max-width menandakan bahwa rule css ini hanya akan bekerja untuk layar dengan maksimal 768px, jika lebih dari 768px maka rule ini diabaikan */
-@media only screen and (max-width: 768px) {
-  #input-list form {
 
-      width: 290px;
-  }
-  .flex-item{
-     flex-basis: 100%; /*biar 1 item aja yg muncul di hp */
-  }
-}
+
 
 #input-list{
   background: linear-gradient(to bottom right, #606062, #393939);
@@ -223,4 +215,15 @@ footer p{
     background:pink;
     width:100%;
     top:0;
+}
+
+/* styling responsive max-width menandakan bahwa rule css ini hanya akan bekerja untuk layar dengan maksimal 768px, jika lebih dari 768px maka rule ini diabaikan */
+@media only screen and (max-width: 768px) {
+  #input-list form {
+
+      width: 290px;
+  }
+  .flex-item{
+     flex-basis: 100%; /*biar 1 item aja yg muncul di hp */
+  }
 }
