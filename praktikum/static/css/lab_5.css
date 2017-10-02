@@ -81,10 +81,21 @@ footer p{
   padding-top: 10px;
 }
 
+.flex-item{
+  padding: 0 15px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 25%;
+}
+
 /* styling responsive max-width menandakan bahwa rule css ini hanya akan bekerja untuk layar dengan maksimal 768px, jika lebih dari 768px maka rule ini diabaikan */
 @media only screen and (max-width: 768px) {
   #input-list form {
+
       width: 290px;
+  }
+  .flex-item{
+     flex-basis: 100%; /*biar 1 item aja yg muncul di hp */
   }
 }
 
@@ -164,12 +175,7 @@ footer p{
   margin-right: -15px;
   margin-left: -15px;
 }
-.flex-item{
-  padding: 0 15px;
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: 25%;
-}
+
 
 .to-do-list .to-do-list-title {
   font-size: 20px;
