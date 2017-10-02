@@ -63,10 +63,6 @@ class Lab5UnitTest(TestCase):
 
 class Lab5FunctionalTest(TestCase):
 
-    def setUp(self):
-        chrome_options = Options()
-        self.selenium  = webdriver.Chrome('./chromedriver', chrome_options=chrome_options)
-        super(Lab5FunctionalTest, self).setUp()
 
     def tearDown(self):
         self.selenium.quit()
@@ -89,11 +85,7 @@ class Lab5FunctionalTest(TestCase):
         # submitting the form
         submit.send_keys(Keys.RETURN)
 
-    def setUp(self):
-        chrome_options = Options()
-        self.selenium  = webdriver.Chrome('./chromedriver.exe', chrome_options=chrome_options)
-        super(Lab5FunctionalTest, self).setUp()
-
+    
     def setUp(self):
         chrome_options = Options()
         chrome_options.add_argument('--dns-prefetch-disable')
