@@ -1,9 +1,11 @@
 from django.test import TestCase
 from django.test import Client
 from django.urls import resolve
-from .views import index, add_todo
+from .views import index, add_todo,delete
 from .models import Todo
 from .forms import Todo_Form
+from django.shortcuts import get_object_or_404
+from django.core.urlresolvers import reverse
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -61,11 +63,22 @@ class Lab5UnitTest(TestCase):
         html_response = response.content.decode('utf8')
         self.assertNotIn(test, html_response)
 
+    def test_lab5_can_delete_todo(self):
+    	# Creating a new activity
+        new_activity = Todo.objects.create(title='mengerjakan lab ppw', description='mengerjakan lab_5 ppw')
+
+        # Retrieving all available activity
+        counting_all_available_todo = Todo.objects.all().count()
+        get_object_or_404(Todo, pk=id).delete()
+
+        self.assertEqual(counting_all_available_todo-1, Todo.objects.all().count())
+
+
 class Lab5FunctionalTest(TestCase):
-    #def setUp(self):
-    #    chrome_options = Options()
-    #    self.selenium  = webdriver.Chrome('./chromedriver', chrome_options=chrome_options)
-    #    super(Lab5FunctionalTest, self).setUp()
+    def setUp(self): #buat di local host
+        chrome_options = Options()
+        self.selenium  = webdriver.Chrome('./chromedriver', chrome_options=chrome_options)
+        super(Lab5FunctionalTest, self).setUp()
 
 
     def tearDown(self):
@@ -90,11 +103,11 @@ class Lab5FunctionalTest(TestCase):
         submit.send_keys(Keys.RETURN)
 
     
-    def setUp(self):
-        chrome_options = Options()
-        chrome_options.add_argument('--dns-prefetch-disable')
-        chrome_options.add_argument('--no-sandbox')        
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('disable-gpu')
-        self.selenium  = webdriver.Chrome('./chromedriver', chrome_options=chrome_options)
-        super(Lab5FunctionalTest, self).setUp()
+#    def setUp(self):
+#        chrome_options = Options()
+#        chrome_options.add_argument('--dns-prefetch-disable')
+#        chrome_options.add_argument('--no-sandbox')        
+#        chrome_options.add_argument('--headless')
+#        chrome_options.add_argument('disable-gpu')
+#        self.selenium  = webdriver.Chrome('./chromedriver', chrome_options=chrome_options)
+#        super(Lab5FunctionalTest, self).setUp()
