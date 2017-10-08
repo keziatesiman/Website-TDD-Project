@@ -75,10 +75,10 @@ class Lab5UnitTest(TestCase):
 
 
 class Lab5FunctionalTest(TestCase):
-    def setUp(self): #buat di local host
-        chrome_options = Options()
-        self.selenium  = webdriver.Chrome('./chromedriver', chrome_options=chrome_options)
-        super(Lab5FunctionalTest, self).setUp()
+#    def setUp(self): #buat di local host
+#       chrome_options = Options()
+#        self.selenium  = webdriver.Chrome('./chromedriver', chrome_options=chrome_options)
+#        super(Lab5FunctionalTest, self).setUp()
 
 
     def tearDown(self):
@@ -103,11 +103,11 @@ class Lab5FunctionalTest(TestCase):
         submit.send_keys(Keys.RETURN)
 
     
-#    def setUp(self):
-#        chrome_options = Options()
-#        chrome_options.add_argument('--dns-prefetch-disable')
-#        chrome_options.add_argument('--no-sandbox')        
-#        chrome_options.add_argument('--headless')
-#        chrome_options.add_argument('disable-gpu')
-#        self.selenium  = webdriver.Chrome('./chromedriver', chrome_options=chrome_options)
-#        super(Lab5FunctionalTest, self).setUp()
+    def setUp(self):
+        chrome_options = Options()
+        chrome_options.add_argument('--dns-prefetch-disable')
+        chrome_options.add_argument('--no-sandbox')        
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('disable-gpu')
+        self.selenium  = webdriver.Chrome('./chromedriver', chrome_options=chrome_options)
+        super(Lab5FunctionalTest, self).setUp()
