@@ -1,9 +1,9 @@
 // Calculator
-
+var print = document.getElementById('print');
 var erase = false;
 
 var go = function(x) {
-	var print = document.getElementById('print');
+	var print.value = document.getElementById('print');
 
 	if (erase){
 		print.value ="";
