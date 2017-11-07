@@ -1,7 +1,6 @@
 //chat box
 var isSendTurn = true;
 
-
 function sendMsg(msg) {
   return '<div class="msg-send"><p>' + msg + '</p></div>';
 }
@@ -13,10 +12,8 @@ function receiveMsg(msg) {
 var chat = function(msg) {
   if (isSendTurn) {
     $('.msg-insert').append(sendMsg(msg));
-    $(".chat-body").scrollTop($(".chat-body").height());
   } else {
     $('.msg-insert').append(receiveMsg(msg));
-    $(".chat-body").scrollTop($(".chat-body").height());
   }
   isSendTurn = !isSendTurn;
 }
