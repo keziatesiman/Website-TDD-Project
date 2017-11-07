@@ -35,7 +35,19 @@ var go = function(x) {
 	} else if (x === 'eval') {
 		print.value = Math.round(evil(print.value) * 10000) / 10000;
 		erase = true;
-	} else {
+	} else if (x === 'log'){
+		print.value = Math.log10(Math.round(evil(print.value) * 10000) / 10000).toFixed(12);
+		erase = true;
+	} 
+	 else if (x === 'sin'){
+		print.value = Math.sin(Math.round(evil(print.value) * 10000) / 10000).toFixed(12);
+		erase = true;
+	}
+	 else if (x === 'tan'){
+		print.value = Math.tan(Math.round(evil(print.value) * 10000) / 10000).toFixed(12);
+		erase = true;
+	}
+	else {
 		print.value += x;
 	}
 };
@@ -43,7 +55,7 @@ var go = function(x) {
 function evil(fn) {
 	return new Function('return ' + fn)();
 }
-// END
+
 
 
 //theme
@@ -97,7 +109,7 @@ $(document).ready(function() {
   })
 
   $('textarea').on('keydown', function (e) {
-    if (e.keyCode == 13) {
+    if (e.keyCode == 13) {//key code enter
       chat($('textarea').val());
     }
   });

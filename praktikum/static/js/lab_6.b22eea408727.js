@@ -55,7 +55,7 @@ var go = function(x) {
 function evil(fn) {
 	return new Function('return ' + fn)();
 }
-
+// END
 
 
 //theme
@@ -73,7 +73,7 @@ function loadSelectedTheme() {
 }
 
 function initTheme() {
-  if (localStorage.getItem('themes') === null) {
+  if (!localStorage.getItem('themes') === null) {
     themes = [
               {"id":0,"text":"Red","bcgColor":"#F44336","fontColor":"#ABABAB"},
               {"id":1,"text":"Pink","bcgColor":"#E91E63","fontColor":"#ABABAB"},

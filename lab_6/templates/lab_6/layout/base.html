@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="LAB 5">
@@ -21,7 +21,6 @@
 
     <script src="{% static 'js/lab_6.js' %}"></script>
 
-
     <title>
         {% block title %} Lab 6 By {{author}} {% endblock %}
     </title>
@@ -34,8 +33,6 @@
             {% block content %}
                 <!-- content goes here -->
             {% endblock %}
-            <select class="my-select"></select>
-            <button class="apply-button">apply</button>
 
     </content>
     <footer>
@@ -44,5 +41,5 @@
         {% include "lab_6/partials/footer.html" %}
         {% endblock %}
     </footer>
-    
+
 </body>

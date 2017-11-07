@@ -55,47 +55,7 @@ var go = function(x) {
 function evil(fn) {
 	return new Function('return ' + fn)();
 }
-
-
-
-//theme
-function applyTheme(themeId) {
-  var themes = JSON.parse(localStorage.getItem('themes'));
-  selectedTheme = themes.find(theme => theme.id == themeId);
-  $('body').css('background', selectedTheme.bcgColor);
-  $('body').css('color', selectedTheme.fontColor);
-  localStorage.setItem('selectedThemeId', JSON.stringify(themeId));
-}
-
-function loadSelectedTheme() {
-  selectedThemeId = JSON.parse(localStorage.getItem('selectedThemeId'));
-  applyTheme(selectedThemeId);
-}
-
-function initTheme() {
-  if (localStorage.getItem('themes') === null) {
-    themes = [
-              {"id":0,"text":"Red","bcgColor":"#F44336","fontColor":"#ABABAB"},
-              {"id":1,"text":"Pink","bcgColor":"#E91E63","fontColor":"#ABABAB"},
-              {"id":2,"text":"Purple","bcgColor":"#9C27B0","fontColor":"#ABABAB"},
-              {"id":3,"text":"Indigo","bcgColor":"#3F51B5","fontColor":"#ABABAB"},
-              {"id":4,"text":"Blue","bcgColor":"#2196F3","fontColor":"#212121"},
-              {"id":5,"text":"Teal","bcgColor":"#009688","fontColor":"#212121"},
-              {"id":6,"text":"Lime","bcgColor":"#CDDC39","fontColor":"#212121"},
-              {"id":7,"text":"Yellow","bcgColor":"#FFEB3B","fontColor":"#212121"},
-              {"id":8,"text":"Amber","bcgColor":"#FFC107","fontColor":"#212121"},
-              {"id":9,"text":"Orange","bcgColor":"#FF5722","fontColor":"#212121"},
-              {"id":10,"text":"Brown","bcgColor":"#795548","fontColor":"#ABABAB"}
-            ];
-
-    localStorage.setItem('themes', JSON.stringify(themes));
-  }
-
-  if (localStorage.getItem('selectedThemeId') === null) {
-    localStorage.setItem('selectedThemeId', 0);
-  }
-}
-
+// END
 $(document).ready(function() {
   initTheme();
   loadSelectedTheme();
@@ -120,3 +80,43 @@ $(document).ready(function() {
     }
   });
 });
+
+
+//theme
+function applyTheme(themeId) {
+  var themes = JSON.parse(localStorage.getItem('themes'));
+  selectedTheme = themes.find(theme => theme.id == themeId);
+  $('body').css('background', selectedTheme.bcgColor);
+  $('body').css('color', selectedTheme.fontColor);
+  localStorage.setItem('selectedThemeId', JSON.stringify(themeId));
+}
+
+function loadSelectedTheme() {
+  selectedThemeId = JSON.parse(localStorage.getItem('selectedThemeId'));
+  applyTheme(selectedThemeId);
+}
+
+function initTheme() {
+  if (!localStorage.getItem('themes') === null) {
+    themes = [
+              {"id":0,"text":"Red","bcgColor":"#F44336","fontColor":"#ABABAB"},
+              {"id":1,"text":"Pink","bcgColor":"#E91E63","fontColor":"#ABABAB"},
+              {"id":2,"text":"Purple","bcgColor":"#9C27B0","fontColor":"#ABABAB"},
+              {"id":3,"text":"Indigo","bcgColor":"#3F51B5","fontColor":"#ABABAB"},
+              {"id":4,"text":"Blue","bcgColor":"#2196F3","fontColor":"#212121"},
+              {"id":5,"text":"Teal","bcgColor":"#009688","fontColor":"#212121"},
+              {"id":6,"text":"Lime","bcgColor":"#CDDC39","fontColor":"#212121"},
+              {"id":7,"text":"Yellow","bcgColor":"#FFEB3B","fontColor":"#212121"},
+              {"id":8,"text":"Amber","bcgColor":"#FFC107","fontColor":"#212121"},
+              {"id":9,"text":"Orange","bcgColor":"#FF5722","fontColor":"#212121"},
+              {"id":10,"text":"Brown","bcgColor":"#795548","fontColor":"#ABABAB"}
+            ];
+
+    localStorage.setItem('themes', JSON.stringify(themes));
+  }
+
+  if (localStorage.getItem('selectedThemeId') === null) {
+    localStorage.setItem('selectedThemeId', 0);
+  }
+}
+
