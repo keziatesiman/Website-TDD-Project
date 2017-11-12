@@ -95,7 +95,8 @@ function initTheme() {
   }
 
   if (localStorage.getItem('selectedThemeId') === null) {
-    localStorage.setItem('selectedThemeId', 0);
+  	//set indigo as default color
+    localStorage.setItem('selectedThemeId', 3);
   }
 }
 
