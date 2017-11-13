@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Friend
 from .api_csui_helper.csui_helper import CSUIhelper
@@ -9,8 +10,7 @@ import os
 import json
 
 response = {}
-csui_helper = CSUIhelper(os.environ.get("SSO_USERNAME", "yourusername"),
-                         os.environ.get("SSO_PASSWORD", "yourpassword"))
+csui_helper = CSUIhelper()
 
 def index(request):
     # Page halaman menampilkan list mahasiswa yang ada
@@ -19,7 +19,25 @@ def index(request):
     mahasiswa_list = csui_helper.instance.get_mahasiswa_list()
 
     friend_list = Friend.objects.all()
-    response = {"mahasiswa_list": mahasiswa_list, "friend_list": friend_list}
+
+    #Paginator
+    page = request.GET.get('page', 1)
+    paginator = Paginator(mahasiswa_list, 10)
+    try:
+        mahasiswa = paginator.page(page)
+    except PageNotAnInteger:
+        mahasiswa = paginator.page(1)
+    except EmptyPage:
+        mahasiswa = paginator.page(paginator.num_pages)
+    
+    index = mahasiswa.number -1
+
+    max_index = len(paginator.page_range)
+    start_index = index if index >= 10 else 0
+    end_index = 10 if index < max_index - 10 else max_index
+    
+    page_range = list(paginator.page_range)[start_index:end_index]
+    response = {"mahasiswa_list": mahasiswa, "friend_list": friend_list, "page_range": page_range}
     html = 'lab_7/lab_7.html'
     return render(request, html, response)
 
@@ -28,6 +46,12 @@ def friend_list(request):
     response['friend_list'] = friend_list
     html = 'lab_7/daftar_teman.html'
     return render(request, html, response)
+
+
+def get_friend_list(request):
+    data = [model_to_dict(friend) for friend in Friend.objects.all()]
+    return JsonResponse({'results': data})
+
 
 @csrf_exempt
 def add_friend(request):
@@ -47,7 +71,9 @@ def delete_friend(request, friend_id):
 def validate_npm(request):
     npm = request.POST.get('npm', None)
     data = {
-        'is_taken': #lakukan pengecekan apakah Friend dgn npm tsb sudah ada
+        'is_taken': Friend.objects.filter(npm__iexact = npm).exists() 
+         #lakukan pengecekan apakah Friend dgn npm tsb sudah ada
+                 	
     }
     return JsonResponse(data)
 
