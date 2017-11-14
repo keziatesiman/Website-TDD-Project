@@ -49,17 +49,22 @@ def friend_list(request):
 
 
 def get_friend_list(request):
-    data = [model_to_dict(friend) for friend in Friend.objects.all()]
-    return JsonResponse({'results': data})
-
+    if request.method == 'GET':
+        friend_list = Friend.objects.all()
+        data = serializers.serialize('json', friend_list)
+        return HttpResponse(data)
 
 @csrf_exempt
 def add_friend(request):
     if request.method == 'POST':
         name = request.POST['name']
         npm = request.POST['npm']
-        friend = Friend(friend_name=name, npm=npm)
-        friend.save()
+
+        #cek friends sudah ada atau belum
+        already_friend = Friend.objects.filter(npm__iexact=npm).exists()
+        if (not already_friend):
+            friend = Friend(friend_name=name, npm=npm)
+            friend.save()
         data = model_to_dict(friend)
         return HttpResponse(data)
 
