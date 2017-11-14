@@ -63,7 +63,14 @@ class Lab5UnitTest(TestCase):
         html_response = response.content.decode('utf8')
         self.assertNotIn(test, html_response)
 
-    
+    def test_lab5_delete_success(self):
+        todo = Todo(title="judul")
+        todo.save()
+
+        response = Client().post('/lab-5/delete/' + str(todo.id) + '/')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Todo.objects.all().count(), 0)
+
 
     #def test_lab5_can_delete_todo(self):
     #	# Creating a new activity

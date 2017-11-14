@@ -67,5 +67,16 @@ class Lab7UnitTest(TestCase):
 		self.assertEqual(response.status_code, 302)
 		self.assertNotIn(friend, Friend.objects.all())
 
+	def test_validate_npm(self):
+		response = self.client.post('/lab-7/validate-npm/')
+		html_response = response.content.decode('utf8')
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(html_response, {'is_taken':False})
+
+	def test_csui_helper_wrong_password(self):
+		with self.assertRaises(Exception):
+			csui_helper2 = CSUIhelper(username="wrong", password="salah")
+
+
 
 # Create your tests here.
