@@ -40,4 +40,32 @@ class Lab7UnitTest(TestCase):
 		counting_all_object_friend = Friend.objects.all().count()
 		self.assertEqual(counting_all_object_friend,1)
 
+	def test_lab7_can_add_friend(self):
+		response_post = Client().post(
+			'/lab-7/add-friend/', 
+			{'name':"Kezia", 'npm':"1606"}
+		)
+		self.assertEqual(response_post.status_code, 200)
+
+	def test_lab7_post_success(self):
+		response_post = Client().post('/lab-7/add-friend/', {'name': 'Lily', 'npm': '1678905033'})
+		self.assertEqual(response_post.status_code, 200)
+		self.assertEqual(Friend.objects.all().count(), 1)
+
+	def test_get_friend_list_data_url_is_exist(self):
+		response = Client().get('/lab-7/get-friend-list/')
+		self.assertEqual(response.status_code, 200)
+
+	def test_friend_description_url_is_exist(self):
+		friend = Friend.objects.create(friend_name="Lily", npm="1678956086")
+		response = Client().post('/lab-7/friend-description/' + str(friend.id) + '/')
+		self.assertEqual(response.status_code, 200)
+
+	def test_delete_friend(self):
+		friend = Friend.objects.create(friend_name="Pina Korata", npm="1606123456")
+		response = Client().post('/lab-7/delete-friend/' + str(friend.id) + '/')
+		self.assertEqual(response.status_code, 302)
+		self.assertNotIn(friend, Friend.objects.all())
+
+
 # Create your tests here.
