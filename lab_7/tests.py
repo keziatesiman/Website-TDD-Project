@@ -1,8 +1,10 @@
 from django.test import TestCase
 from django.test import Client
 from django.urls import resolve
+from .api_csui_helper.csui_helper import CSUIhelper
 from .views import index, add_friend, validate_npm, delete_friend, friend_list, get_friend_list, friend_description
 from .models import Friend
+import json
 
 # Create your tests here.
 class Lab7UnitTest(TestCase):
@@ -76,6 +78,12 @@ class Lab7UnitTest(TestCase):
 	def test_csui_helper_wrong_password(self):
 		with self.assertRaises(Exception):
 			csui_helper2 = CSUIhelper(username="wrong", password="salah")
+
+	def test_csui_helper(self):
+		csui_helper = CSUIhelper()
+		auth_param = csui_helper.instance.get_auth_param_dict()
+		self.assertEqual(auth_param['client_id'], 'X3zNkFmepkdA47ASNMDZRX3Z9gqSU1Lwywu5WepG')
+
 
 
 
