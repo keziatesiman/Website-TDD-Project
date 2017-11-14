@@ -15,7 +15,6 @@ csui_helper = CSUIhelper()
 def index(request):
     # Page halaman menampilkan list mahasiswa yang ada
     # TODO berikan akses token dari backend dengan menggunakaan helper yang ada
-
     mahasiswa_list = csui_helper.instance.get_mahasiswa_list()
 
     friend_list = Friend.objects.all()
@@ -61,6 +60,7 @@ def add_friend(request):
         npm = request.POST['npm']
 
         #cek friends sudah ada atau belum
+        friend = None
         already_friend = Friend.objects.filter(npm__iexact=npm).exists()
         if (not already_friend):
             friend = Friend(friend_name=name, npm=npm)
@@ -70,7 +70,7 @@ def add_friend(request):
 
 def delete_friend(request, friend_id):
     Friend.objects.filter(id=friend_id).delete()
-    return HttpResponseRedirect('/lab-7/')
+    return HttpResponseRedirect('/lab-7/friend-list')
 
 @csrf_exempt
 def validate_npm(request):
@@ -87,3 +87,9 @@ def model_to_dict(obj):
     struct = json.loads(data)
     data = json.dumps(struct[0]["fields"])
     return data
+
+def friend_description(request, friend_id):
+    friend = Friend.objects.filter(id=friend_id)[0]
+    response["friend"] = friend;
+    html = 'lab_7/friend_description.html'
+    return render(request, html, response)

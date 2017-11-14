@@ -16,18 +16,34 @@
 {% endblock %}
 {% block javascript %}
     <script>
+
+
+
         $( document ).ready(function () {
             //{# lengkapi pemanggilan ajax berikut untuk mengambil daftar teman yang ada di database #}
             $.ajax({
                 method: "GET",
                 url: '{% url "lab-7:get-friend-list" %}',
                 //#URL untuk mendapatkan list teman],
-                success: function (response) {
+                success: function (friend_list) {
                     //#tampilkan list teman ke halaman
                     //#hint : gunakan fungsi jquery append()
-                   console.log('sukses');
-                   $("#friend-list").append(html)
-                },
+                    console.log('sukses');
+                    console.log(friend_list);
+
+                    var friend_list = JSON.parse(friend_list);
+                    $.each(friend_list, function(index, friend) {
+                    var button = '<button type="button" class="btn btn-xs btn-danger"' +
+                        'onClick="deleteFriend(' + friend.pk + ')">' +
+                        '&times; Delete' +
+                        '</button>' +
+                        '</span>';
+                    var html = '<a class="list-group-item clearfix" href="javascript:detailFriend(' + friend.pk + ')">' + friend.fields.friend_name + '</a>' + button;
+
+                    $("#friend-list").append(html)
+                })
+
+            },
                 error: function(error){
                     //#tampilkan pesan error
                     console.log('gagal');
@@ -35,5 +51,16 @@
                 }
             });
         });
+    function deleteFriend(id) {
+        /*alert("Apakah Anda akan menghapus " + friend.friend_name + " dari daftar teman?");*/
+        window.open('../delete-friend/' + id + '/', '_self');
+    }
+
+    function detailFriend(id) {
+        window.open('../friend-description/' + id + '/', '_self');
+    }
+
+
+
     </script>
 {% endblock %}
