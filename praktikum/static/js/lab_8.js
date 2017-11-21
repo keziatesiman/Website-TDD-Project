@@ -1,4 +1,3 @@
-
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '1756190254674727',
@@ -117,7 +116,7 @@
     FB.login(function(response){
        console.log(response);
        render(true);
-     }, {scope:'public_profile,user_posts,publish_actions'})
+     }, {scope:'public_profile,user_posts,publish_actions,user_about_me'})
 
   };
 
@@ -139,16 +138,21 @@
   // method render, dan memanggil fungsi callback tersebut setelah selesai melakukan request dan 
   // meneruskan response yang didapat ke fungsi callback tersebut
   // Apakah yang dimaksud dengan fungsi callback?
-  const getUserData = (fun) => {
+const getUserData = (fun) => {
     FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
-          FB.api('/me?fields=id,nameabout,email,gender,cover,picture.width(168).height(168)', 'GET', function(response){
-            console.log(response);
-            fun(response);
-          });
+            FB.api('/me?fields=id,name,about,email,gender,cover,picture.width(168).height(168)', 'GET', function(response) {
+                console.log(response);
+                if (response && !response.error) {
+                    fun(response);
+                } else {
+                    alert("Something went wrong");
+                }
+            });
         }
     });
-  };
+};
+
 
   const getUserFeed = (fun) => {
     // TODO: Implement Method Ini
@@ -172,12 +176,12 @@
 
   };
 
-  const postFeed = () => {
+  const postFeed = (message) => {
     // Todo: Implement method ini,
     // Pastikan method ini menerima parameter berupa string message dan melakukan Request POST ke Feed
     // Melalui API Facebook dengan message yang diterima dari parameter.
-     var message = "Hello World!";
      FB.api('/me/feed', 'POST', {message:message});
+     render(true)
 
   };
 

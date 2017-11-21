@@ -1,3 +1,76 @@
+$(document).ready(function() {
+//inisiasi data tema (optional)
+  var themes = [{"id":0,"text":"Red","bcgColor":"#F44336","fontColor":"#FAFAFA"},
+    {"id":1,"text":"Pink","bcgColor":"#E91E63","fontColor":"#FAFAFA"},
+    {"id":2,"text":"Purple","bcgColor":"#9C27B0","fontColor":"#FAFAFA"},
+    {"id":3,"text":"Indigo","bcgColor":"#3F51B5","fontColor":"#FAFAFA"},
+    {"id":4,"text":"Blue","bcgColor":"#2196F3","fontColor":"#212121"},
+    {"id":5,"text":"Teal","bcgColor":"#009688","fontColor":"#212121"},
+    {"id":6,"text":"Lime","bcgColor":"#CDDC39","fontColor":"#212121"},
+    {"id":7,"text":"Yellow","bcgColor":"#FFEB3B","fontColor":"#212121"},
+    {"id":8,"text":"Amber","bcgColor":"#FFC107","fontColor":"#212121"},
+    {"id":9,"text":"Orange","bcgColor":"#FF5722","fontColor":"#212121"},
+    {"id":10,"text":"Brown","bcgColor":"#795548","fontColor":"#FAFAFA"},
+    {"id":11,"text":"White","bcgColor":"white","fontColor":"black"},
+    {"id":12,"text":"Black","bcgColor":"black","fontColor":"white"},
+    {"id":13,"text":"Grey","bcgColor":"grey","fontColor":"white"},
+  ];
+  var selectedTheme = {"White":{"bcgColor":"white","fontColor":"black"}};
+  
+  //simpan data tema di local storage
+  localStorage.setItem('themes', JSON.stringify(themes));
+  localStorage.setItem('selectedTheme', JSON.stringify(selectedTheme));
+  //menload tema ke select2
+  var retrievedObject = localStorage.getItem('themes');
+  $('.my-select').select2({data: JSON.parse(retrievedObject)});
+  
+  //menerapkan selectedTheme yang ada di local storage
+  var retrievedSelected = JSON.parse(localStorage.getItem('selectedTheme'));
+    var key;
+    var bcgColor;
+    var fontColor;
+  for (key in retrievedSelected) {
+      if (retrievedSelected.hasOwnProperty(key)) {
+          bcgColor=retrievedSelected[key].bcgColor;
+          fontColor=retrievedSelected[key].fontColor;
+      }
+  }  
+  $("body").css({"background-color": bcgColor});
+  $("p:not(#footer):not(.feed p)").css({"color":fontColor});
+  $("h1").css({"color":fontColor});
+  $("h2").css({"color":fontColor});
+  $("h3").css({"color":fontColor});
+
+
+
+  //fungsi tombol apply
+  $('.apply-button').on('click', function(){  // sesuaikan class button
+    // [TODO] ambil value dari elemen select .my-select
+    var valueTheme = $('.my-select').val();
+    // [TODO] cocokan ID theme yang dipilih dengan daftar theme yang ada
+    // [TODO] ambil object theme yang dipilih
+    // [TODO] aplikasikan perubahan ke seluruh elemen HTML yang perlu diubah warnanya
+    // [TODO] simpan object theme tadi ke local storage selectedTheme
+    var theme;
+    var a;
+    var selectedTheme = {};
+    //mencari tema yang sesuai dengan id
+    for(a in themes){
+      if(a==valueTheme){
+        var bcgColor = themes[a].bcgColor;
+        var fontColor = themes[a].fontColor;
+        var text = themes[a].text;
+        $("body").css({"background-color": bcgColor});
+        $("p:not(#footer):not(.feed p)").css({"color":fontColor});
+        $("h1").css({"color":fontColor});
+        $("h2").css({"color":fontColor});
+        $("h3").css({"color":fontColor});
+        selectedTheme[text] = {"bcgColor":bcgColor,"fontColor":fontColor};
+        localStorage.setItem('selectedTheme', JSON.stringify(selectedTheme));
+      }
+    }
+});
+
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '1756190254674727',

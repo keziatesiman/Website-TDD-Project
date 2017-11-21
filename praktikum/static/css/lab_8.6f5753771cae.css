@@ -27,11 +27,6 @@ footer p{
   text-align: center;
 }
 
-.profile{
-  color : white;
-  font-family: "Times New Roman", Times, serif;
-}
-
 .feed{
 	background-color: white;
 	margin : 50px 100px 50px 100px;
@@ -41,8 +36,6 @@ footer p{
     padding-left: 20px;
     border: solid;
     border-radius: 5px;
-    background-color: lightblue;
-
 }
 
 .feed:hover {
