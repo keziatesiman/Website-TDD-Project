@@ -1,0 +1,55 @@
+/* Custom navbar style */
+.navbar-static-top {
+   margin-bottom: 19px;
+}
+.navbar-default .navbar-nav>li>a {
+   cursor: pointer;
+}
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+	margin-top: 70px;
+  	height: 100%;
+  	padding-bottom: 50px;
+}
+
+
+footer p{
+	text-align: center;
+}
+.footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0%;
+  text-align: center;
+}
+
+.feed{
+	background-color: white;
+	margin : 50px 100px 50px 100px;
+	padding-top: 20px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    padding-left: 20px;
+    border: solid;
+    border-radius: 5px;
+}
+
+textarea {
+  width: 90%;
+  height: 150px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+p:not(#footer){
+	font-family: "Times New Roman", Times, serif;
+	font-size: 18px;
+}
+
+h2{
+	margin-left: 20px;
+}

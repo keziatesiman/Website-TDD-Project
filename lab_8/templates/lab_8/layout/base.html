@@ -1,0 +1,46 @@
+{% load staticfiles %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="description" content="LAB 8">
+   <meta name="author" content="{{author}}">
+   <!-- bootstrap csss -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+   <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+   <link rel="stylesheet" type="text/css" href="{% static 'css/lab_8.css' %}" />
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700">
+   <script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <script src="{% static 'js/lab_8.js' %}"></script>
+
+   <title>
+       {% block title %} Lab 8 {% endblock %}
+   </title>
+</head>
+<body>
+   <header>
+       {% include "lab_8/partials/header.html" %}
+   </header>
+   <content>
+           {% block content %}
+               <!-- content goes here -->
+           {% endblock %}
+   </content>
+   
+   
+   {% block javascript %}
+   {% endblock %}
+</body>
+
+<footer>
+       <!-- TODO Block Footer dan include footer.html -->
+       {% block footer %}
+       {% include "lab_8/partials/footer.html" %}
+       {% endblock %}
+   </footer>
+</html>
