@@ -33,12 +33,12 @@
 
                     var friend_list = JSON.parse(friend_list);
                     $.each(friend_list, function(index, friend) {
-                    var button = '<button type="button" class="btn btn-xs btn-danger"' +
+                    var button = '<span>' +'<button type="button" class="btn btn-xs btn-danger"' +
                         'onClick="deleteFriend(' + friend.pk + ')">' +
                         '&times; Delete' +
                         '</button>' +
                         '</span>';
-                    var html = '<a class="list-group-item clearfix" href="javascript:detailFriend(' + friend.pk + ')">' + friend.fields.friend_name + '</a>' + button;
+                    var html = '<spanstyle="width = "600px"">' +'<a class="list-group-item clearfix" href="javascript:detailFriend(' + friend.pk + ')" > ' + friend.fields.friend_name + '</a>' +'</span>'+ button;
 
                     $("#friend-list").append(html)
                 })
