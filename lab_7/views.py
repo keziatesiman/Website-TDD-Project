@@ -20,8 +20,8 @@ def index(request):
     friend_list = Friend.objects.all()
 
     #Paginator
-    page = request.GET.get('page', 1)
-    paginator = Paginator(mahasiswa_list, 10)
+    page = request.GET.get('page', 1) #add variable with name page, if not exist return 1
+    paginator = Paginator(mahasiswa_list, 10) #paginate 10 person per page from mahasiswa_list
     try:
         mahasiswa = paginator.page(page)
     except PageNotAnInteger:
@@ -50,9 +50,7 @@ def friend_list(request):
 def get_friend_list(request):
     if request.method == 'GET':
         friend_list = Friend.objects.all()
-        data = serializers.serialize('json', friend_list)
-        return HttpResponse(data)
-
+        data = serializers.serialize('json', friend_list) #get friend list with json format
 @csrf_exempt
 def add_friend(request):
     if request.method == 'POST':
@@ -61,7 +59,7 @@ def add_friend(request):
 
         #cek friends sudah ada atau belum
         friend = None
-        already_friend = Friend.objects.filter(npm__iexact=npm).exists()
+        already_friend = Friend.objects.filter(npm__iexact=npm).exists() 
         if (not already_friend):
             friend = Friend(friend_name=name, npm=npm)
             friend.save()
