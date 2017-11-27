@@ -1,0 +1,16 @@
+
+<nav class="navbar navbar-default navbar-static-top navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'lab-9:index' %}">Home</a>
+    </div>
+    {% if connected %}
+     <a style="margin-top: 10px" href="{% url 'lab-9:auth_logout' %}" class="btn btn-danger pull-right" onclick="return confirm('Anda yakin akan log out?')">
+            Logout </a><p class="navbar-text pull-right">Anda Masuk sebagai : {{author}} ({{kode_identitas}})</p>
+    {% endif %}
+  </div>
+</nav>
