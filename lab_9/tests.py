@@ -2,9 +2,23 @@ from django.test import TestCase
 from django.test import Client
 from django.urls import resolve
 from .views import index
-# Create your tests here.
-class Lab9UnitTest(TestCase):
+from django.http import HttpRequest
+import requests
+from .api_enterkomputer import get_drones, get_soundcards, get_opticals
+from .csui_helper import get_access_token, verify_user, get_client_id , get_data_user
+import environ
+from django.urls import reverse
 
+# Create your tests here.
+#setting env agar dapat diambil
+root = environ.Path(__file__) - 3 # three folder back (/a/b/c/ - 3 = /)
+env = environ.Env(DEBUG=(bool, False),)
+environ.Env.read_env('.env')
+API_VERIFY_USER = "https://akun.cs.ui.ac.id/oauth/token/verify/"
+API_MAHASISWA = "https://api-dev.cs.ui.ac.id/siakngcs/mahasiswa/"
+
+
+class Lab9UnitTest(TestCase):
 	def test_lab_9_url_is_exist(self):
 		response = Client().get('/lab-9/')
 		self.assertEqual(response.status_code, 200)
@@ -25,3 +39,174 @@ class Lab9UnitTest(TestCase):
 		response = self.client.get('/lab-9/')
 		self.assertEqual(response.status_code, 302)
 
+	def test_profile(self):
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		response = self.client.get('/lab-9/profile/')
+		html_response = response.content.decode('utf8')
+		self.assertIn('kezia.irene',html_response)
+
+	def test_profile_not_login(self):
+		response = self.client.get('/lab-9/profile/')
+		self.assertEqual(response.status_code, 302)
+
+# ======================================================================== #
+	# Test api_enterkomputer.py
+	def test_drones_api(self):
+		response = requests.get('https://www.enterkomputer.com/api/product/drone.json')
+		self.assertEqual(response.json(),get_drones().json())
+
+	def test_soundcards_api(self):
+		response = requests.get('https://www.enterkomputer.com/api/product/soundcard.json')
+		self.assertEqual(response.json(),get_soundcards().json())
+
+	def test_opticals_api(self):
+		response = requests.get('https://www.enterkomputer.com/api/product/optical.json')
+		self.assertEqual(response.json(),get_opticals().json())
+
+#=============================================================================#
+	#drones
+	def test_add_favorite_drone(self):
+		#login
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		#test tambahkan favorit drones
+		response_post = self.client.post(reverse('lab-9:add_session_drones', kwargs={'id':107894})) #item DJI Mavic Battery
+		response_post = self.client.post(reverse('lab-9:add_session_drones', kwargs={'id':107893})) #item DJI Phantom 3 Battery
+		response_post = self.client.post(reverse('lab-9:profile'))
+
+		response = self.client.get('/lab-9/profile/')
+		html_response = response.content.decode('utf8')
+
+		self.assertIn('Hapus dari favorit', html_response)
+
+	def test_delete_favorite_drone(self):
+		#login
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		#test tambahkan favorit drones
+		response_post = self.client.post(reverse('lab-9:add_session_drones', kwargs={'id':107894})) #item DJI Mavic Battery
+		response_post = self.client.post(reverse('lab-9:profile'))
+		#delete items
+		response_post = self.client.post(reverse('lab-9:del_session_drones', kwargs={'id':107894}))
+		response = self.client.get('/lab-9/profile/')
+		html_response = response.content.decode('utf8')
+		self.assertIn('Favoritkan',html_response)
+
+	def test_reset_favorite_drone(self):
+		#login
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		#test tambahkan favorit drones
+		response_post = self.client.post(reverse('lab-9:add_session_drones', kwargs={'id':107894})) #item DJI Mavic Battery
+		response_post = self.client.post(reverse('lab-9:profile'))
+		#reset items
+		response_post = self.client.post(reverse('lab-9:clear_session_drones'))
+		response = self.client.get('/lab-9/profile/')
+		html_response = response.content.decode('utf8')
+		self.assertIn('Favoritkan',html_response)
+
+
+#=============================================================================#
+	#soundcards
+	def test_add_favorite_soundcard(self):
+		#login
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		#test tambahkan favorit drones
+		response_post = self.client.post(reverse('lab-9:add_session_soundcards', kwargs={'id':53495})) #item DJI Mavic Battery
+		response_post = self.client.post(reverse('lab-9:add_session_soundcards', kwargs={'id':53496}))
+		response_post = self.client.post(reverse('lab-9:profile'))
+
+		response = self.client.get('/lab-9/profile/')
+		html_response = response.content.decode('utf8')
+
+		self.assertIn('Hapus dari favorit', html_response)
+
+	def test_delete_favorite_soundcard(self):
+		#login
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		#test tambahkan favorit drones
+		response_post = self.client.post(reverse('lab-9:add_session_soundcards', kwargs={'id':53495})) #item DJI Mavic Battery
+		response_post = self.client.post(reverse('lab-9:profile'))
+		#delete items
+		response_post = self.client.post(reverse('lab-9:del_session_soundcards', kwargs={'id':53495}))
+		response = self.client.get('/lab-9/profile/')
+		html_response = response.content.decode('utf8')
+		self.assertIn('Favoritkan',html_response)
+
+	def test_reset_favorite_soundcard(self):
+		#login
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		#test tambahkan favorit drones
+		response_post = self.client.post(reverse('lab-9:add_session_soundcards', kwargs={'id':53495})) #item DJI Mavic Battery
+		response_post = self.client.post(reverse('lab-9:profile'))
+		#reset items
+		response_post = self.client.post(reverse('lab-9:clear_session_soundcards'))
+		response = self.client.get('/lab-9/profile/')
+		html_response = response.content.decode('utf8')
+		self.assertIn('Favoritkan',html_response)
+
+	
+#=============================================================================#
+	#optical
+	def test_add_favorite_optical(self):
+		#login
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		#test tambahkan favorit drones
+		response_post = self.client.post(reverse('lab-9:add_session_opticals', kwargs={'id':4459})) #item DJI Mavic Battery
+		response_post = self.client.post(reverse('lab-9:add_session_opticals', kwargs={'id':4458}))
+		response_post = self.client.post(reverse('lab-9:profile'))
+
+		response = self.client.get('/lab-9/profile/')
+		html_response = response.content.decode('utf8')
+
+		self.assertIn('Hapus dari favorit', html_response)
+
+	def test_delete_favorite_optical(self):
+		#login
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		#test tambahkan favorit drones
+		response_post = self.client.post(reverse('lab-9:add_session_opticals', kwargs={'id':4459})) #item DJI Mavic Battery
+		response_post = self.client.post(reverse('lab-9:profile'))
+		#delete items
+		response_post = self.client.post(reverse('lab-9:del_session_opticals', kwargs={'id':4459}))
+		response = self.client.get('/lab-9/profile/')
+		html_response = response.content.decode('utf8')
+		self.assertIn('Favoritkan',html_response)
+
+	def test_reset_favorite_optical(self):
+		#login
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		#test tambahkan favorit drones
+		response_post = self.client.post(reverse('lab-9:add_session_opticals', kwargs={'id':4459})) #item DJI Mavic Battery
+		response_post = self.client.post(reverse('lab-9:profile'))
+		#reset items
+		response_post = self.client.post(reverse('lab-9:clear_session_opticals'))
+		response = self.client.get('/lab-9/profile/')
+		html_response = response.content.decode('utf8')
+		self.assertIn('Favoritkan',html_response)
+
+	def test_clear_without_any_favourite(self):
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		response_post = self.client.post(reverse('lab-9:clear_session_opticals'))
+		response = self.client.get('/lab-9/profile/')
+		html_response = response.content.decode('utf8')
+		self.assertIn('Favoritkan',html_response)

@@ -34,7 +34,7 @@ def index(request):
 
 #fungsi untuk melakukan inisiasi data yg dimunculkan pada templates
 #data dimunculkan setelah login pada session
-
+# mengecek pula sudah ada drones, atau opticals, atau soundcards sebelumnya yang difavoritkan
 def set_data_for_session(res, request):
     response['author'] = request.session['user_login']
     response['access_token'] = request.session['access_token']
@@ -42,12 +42,13 @@ def set_data_for_session(res, request):
     response['role'] = request.session['role']
     response['drones'] = get_drones().json()
     response['soundcards'] = get_soundcards().json()
-    response['optical'] = get_opticals().json()
+    response['opticals'] = get_opticals().json()
     response['connected'] = True
     response['name'] = 'Kezia Irene'
 
 
-    print ("#drones = ", get_drones().json(), " - response = ", response['drones'])
+    #print ("#drones = ", get_drones().json(), " - response = ", response['drones'])
+
     ## handling agar tidak error saat pertama kali login (session kosong)
     if 'drones' in request.session.keys():
         response['fav_drones'] = request.session['drones']
@@ -63,7 +64,7 @@ def set_data_for_session(res, request):
     else:
         response['fav_soundcards'] = []
 
-    if 'optical' in request.session.keys():
+    if 'opticals' in request.session.keys():
         response['fav_opticals'] = request.session['opticals']
     # jika tidak ditambahkan else, cache akan tetap menyimpan data
     # sebelumnya yang ada pada response, sehingga data tidak up-to-date
@@ -71,8 +72,8 @@ def set_data_for_session(res, request):
         response['fav_opticals'] = []
 
 
-
-#fungsi untuk menampilkan daftar drones
+#fungsi ini mengecek jika url profil langsung diakses, akan di rediret ke index
+#fungsi untuk menampilkan daftar drones, jika sudah login
 def profile(request):
     print ("#==> profile")
     ## sol : bagaimana cara mencegah error, jika url profile langsung diakses
@@ -91,17 +92,18 @@ def profile(request):
 
 #fungsi untuk menambahkan drone ke favorit
 def add_session_drones(request, id):
-    ssn_key = request.session.keys()
+    ssn_key = request.session.keys() #mengambil semua keys pada session
+    # jika key belum ada pada drones, maka akan dibuat key drones dari objek id
     if not 'drones' in ssn_key:
         print ("# init drones ")
         request.session['drones'] = [id]
     else:
-        drones = request.session['drones']
-        print ("# existing drones => ", drones)
-        if id not in drones:
+        drones = request.session['drones'] #jika key sudah ada
+        print ("# existing drones => ", drones) 
+        if id not in drones:#jika drone dgn id tsb belum ada pada drone, maka akan ditambahkan ke drones
             print ('# add new item, then save to session')
             drones.append(id)
-            request.session['drones'] = drones
+            request.session['drones'] = drones #update session
 
     messages.success(request, "Berhasil tambah drone favorite")
     return HttpResponseRedirect(reverse('lab-9:profile'))
@@ -149,7 +151,7 @@ def add_session_soundcards(request, id):
         request.session['soundcards'] = [id]
     else:
         soundcards = request.session['soundcards']
-        print ("# existing drones => ", soundcards)
+        print ("# existing soundcards => ", soundcards)
         if id not in soundcards:
             print ('# add new item, then save to session')
             soundcards.append(id)
@@ -201,7 +203,7 @@ def add_session_opticals(request, id):
         request.session['opticals'] = [id]
     else:
         opticals = request.session['opticals']
-        print ("# existing drones => ", opticals)
+        print ("# existing opticals => ", opticals)
         if id not in opticals:
             print ('# add new item, then save to session')
             opticals.append(id)
@@ -315,11 +317,15 @@ def cookie_clear(request):
     return res
 
 # Apa yang dilakukan fungsi ini?
+#membuat cookie dengan username dan password
+# lalu memverifikasi kebenaran dari username dan password yang dimasukkan valid
 def my_cookie_auth(in_uname, in_pwd):
     my_uname = "keziatesiman" #SILAHKAN ganti dengan USERNAME yang kalian inginkan
     my_pwd = "1234567890" #SILAHKAN ganti dengan PASSWORD yang kalian inginkan
     return in_uname == my_uname and in_pwd == my_pwd
 
 #Apa yang dilakukan fungsi ini? 
+# verifikasi apakah user sudah login pada halaman cookie
+# mengecek key user_login dan key user_password sudah ada di cookie atau belum
 def is_login(request):
     return 'user_login' in request.COOKIES and 'user_password' in request.COOKIES

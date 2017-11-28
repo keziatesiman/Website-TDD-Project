@@ -23,7 +23,7 @@
                 <td> {{ optical.price }}</td>
                 <td> {{ optical.quantity }}</td>
                 <td>
-                    {% if not drone.id in fav_drones %}
+                    {% if not optical.id in fav_opticals %}
                     <a href="{% url 'lab-9:add_session_opticals' optical.id %}" class="btn btn-primary"> Favoritkan </a>
                     {% else %}
                     <a href="{%url 'lab-9:del_session_opticals' optical.id %}" class="btn btn-primary"> Hapus dari favorit </a>
