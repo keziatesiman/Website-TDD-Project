@@ -23,7 +23,7 @@ response = {}
 #jika sudah, di redirect ke halaman profile
 def index(request):
     response['author'] = "Kezia Irene"
-    print ("#==> masuk index")
+    #print ("#==> masuk index")
     if 'user_login' in request.session:
         return HttpResponseRedirect(reverse('lab-9:profile'))
     else:
@@ -75,7 +75,7 @@ def set_data_for_session(res, request):
 #fungsi ini mengecek jika url profil langsung diakses, akan di rediret ke index
 #fungsi untuk menampilkan daftar drones, jika sudah login
 def profile(request):
-    print ("#==> profile")
+    #print ("#==> profile")
     ## sol : bagaimana cara mencegah error, jika url profile langsung diakses
     if 'user_login' not in request.session.keys():
         return HttpResponseRedirect(reverse('lab-9:index'))
@@ -95,13 +95,13 @@ def add_session_drones(request, id):
     ssn_key = request.session.keys() #mengambil semua keys pada session
     # jika key belum ada pada drones, maka akan dibuat key drones dari objek id
     if not 'drones' in ssn_key:
-        print ("# init drones ")
+        #print ("# init drones ")
         request.session['drones'] = [id]
     else:
         drones = request.session['drones'] #jika key sudah ada
-        print ("# existing drones => ", drones) 
+        #print ("# existing drones => ", drones) 
         if id not in drones:#jika drone dgn id tsb belum ada pada drone, maka akan ditambahkan ke drones
-            print ('# add new item, then save to session')
+            #print ('# add new item, then save to session')
             drones.append(id)
             request.session['drones'] = drones #update session
 

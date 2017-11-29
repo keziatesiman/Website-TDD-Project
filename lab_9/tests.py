@@ -4,6 +4,7 @@ from django.urls import resolve
 from .views import index
 from django.http import HttpRequest
 import requests
+import requests
 from .api_enterkomputer import get_drones, get_soundcards, get_opticals
 from .csui_helper import get_access_token, verify_user, get_client_id , get_data_user
 import environ
@@ -86,7 +87,7 @@ class Lab9UnitTest(TestCase):
 	# Test csui_helper
 	def test_username_and_pass_wrong(self):
 		username = "kezia"
-		password = "kezia"
+		password = "xxxx"
 		with self.assertRaises(Exception) as context:
 			get_access_token(username, password)
 		self.assertIn("kezia", str(context.exception))
@@ -103,7 +104,7 @@ class Lab9UnitTest(TestCase):
 	def test_get_data_user_function(self):
 		self.username = env("SSO_USERNAME")
 		self.password = env("SSO_PASSWORD")
-		self.npm = 1606825676
+		self.npm = "1606825676"
 		access_token = get_access_token(self.username,self.password)
 		parameters = {"access_token": access_token, "client_id": get_client_id()}
 		response = requests.get(API_MAHASISWA+self.npm, params=parameters)
