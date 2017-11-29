@@ -64,6 +64,52 @@ class Lab9UnitTest(TestCase):
 	def test_opticals_api(self):
 		response = requests.get('https://www.enterkomputer.com/api/product/optical.json')
 		self.assertEqual(response.json(),get_opticals().json())
+#=============================================================================#
+	#test custom_auth.py
+
+	def test_fail_login(self):
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': 'kezia', 'password': 'kezia'})
+		response = self.client.get('/lab-9/')
+		html_response = response.content.decode('utf8')
+		self.assertIn('Username atau password salah',html_response)
+
+	def test_logout_auth(self):
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		response = self.client.post(reverse('lab-9:auth_logout'))
+		response = self.client.get('/lab-9/')
+		html_response = response.content.decode('utf8')
+		self.assertIn('Anda berhasil logout. Semua session Anda sudah dihapus',html_response)
+
+#============================================================================================#
+	# Test csui_helper
+	def test_username_and_pass_wrong(self):
+		username = "kezia"
+		password = "kezia"
+		with self.assertRaises(Exception) as context:
+			get_access_token(username, password)
+		self.assertIn("kezia", str(context.exception))
+
+	def test_verify_function(self):
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		access_token = get_access_token(self.username,self.password)
+		parameters = {"access_token": access_token, "client_id": get_client_id()}
+		response = requests.get(API_VERIFY_USER, params=parameters)
+		result = verify_user(access_token)
+		self.assertEqual(result,response.json())
+
+	def test_get_data_user_function(self):
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		self.npm = 1606825676
+		access_token = get_access_token(self.username,self.password)
+		parameters = {"access_token": access_token, "client_id": get_client_id()}
+		response = requests.get(API_MAHASISWA+self.npm, params=parameters)
+		result = get_data_user(access_token,self.npm)
+		self.assertEqual(result,response.json())
+
 
 #=============================================================================#
 	#drones
@@ -210,3 +256,22 @@ class Lab9UnitTest(TestCase):
 		response = self.client.get('/lab-9/profile/')
 		html_response = response.content.decode('utf8')
 		self.assertIn('Favoritkan',html_response)
+
+#=================================================================================#
+#cookie
+
+	def test_login_cookie_page(self):
+		#login session
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		# test template yang digunakan pada halaman login cookie
+		response_post = self.client.get(reverse('lab-9:cookie_login'))
+		self.assertTemplateUsed(response_post, 'lab_9/cookie/login.html')
+		#test jika method yang digunakan pada cookie_auth_login bukan post
+		response_post = self.client.get(reverse('lab-9:cookie_auth_login'))
+		self.assertEqual(response_post.status_code, 302)
+		#test jika halaman profile cookie diakses tanpa login
+		response_post = self.client.get(reverse('lab-9:cookie_profile'))
+		self.assertEqual(response_post.status_code, 302)
+
