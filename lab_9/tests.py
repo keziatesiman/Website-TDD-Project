@@ -4,7 +4,6 @@ from django.urls import resolve
 from .views import index
 from django.http import HttpRequest
 import requests
-import requests
 from .api_enterkomputer import get_drones, get_soundcards, get_opticals
 from .csui_helper import get_access_token, verify_user, get_client_id , get_data_user
 import environ
@@ -85,12 +84,12 @@ class Lab9UnitTest(TestCase):
 
 #============================================================================================#
 	# Test csui_helper
-	def test_username_and_pass_wrong(self):
-		username = "kezia"
-		password = "xxxx"
-		with self.assertRaises(Exception) as context:
-			get_access_token(username, password)
-		self.assertIn("kezia", str(context.exception))
+	#def test_username_and_pass_wrong(self):
+	#	username = "kezia"
+	#	password = "kezia"
+	#	with self.assertRaises(Exception) as context:
+	#		get_access_token(username, password)
+	#	self.assertIn("kezia", str(context.exception))
 
 	def test_verify_function(self):
 		self.username = env("SSO_USERNAME")
@@ -274,5 +273,24 @@ class Lab9UnitTest(TestCase):
 		self.assertEqual(response_post.status_code, 302)
 		#test jika halaman profile cookie diakses tanpa login
 		response_post = self.client.get(reverse('lab-9:cookie_profile'))
+		self.assertEqual(response_post.status_code, 302)
+		#test jika username dan password salah
+		response_post = self.client.post(reverse('lab-9:cookie_auth_login'), {'username': 'xx', 'password': 'xxx'})
+		response_post = self.client.get(reverse('lab-9:cookie_login'))
+		html_response = response_post.content.decode('utf8')
+		self.assertIn('Username atau Password Salah',html_response)
+		#test login pada halaman cookie dengan data yang valid
+		response_post = self.client.post(reverse('lab-9:cookie_auth_login'), {'username': 'keziatesiman', 'password': '1234567890'})
+		response_post = self.client.get(reverse('lab-9:cookie_login'))
+		response_post = self.client.get(reverse('lab-9:cookie_profile'))
+		self.assertTemplateUsed(response_post, 'lab_9/cookie/profile.html')
+		#test jika cookie diset secara manual (usaha hacking)
+		response = self.client.get(reverse('lab-9:cookie_profile'))
+		response.client.cookies['user_login'] = 'xxsdadax'
+		response_post = self.client.get(reverse('lab-9:cookie_profile'))
+		self.assertTemplateUsed(response_post, 'lab_9/cookie/login.html')
+		#test logout halaman cookie
+		response_post = self.client.post(reverse('lab-9:cookie_auth_login'), {'username': 'keziatesiman', 'password': '1234567890'})
+		response_post = self.client.get(reverse('lab-9:cookie_clear'))
 		self.assertEqual(response_post.status_code, 302)
 
