@@ -83,13 +83,13 @@ class Lab9UnitTest(TestCase):
 		self.assertIn('Anda berhasil logout. Semua session Anda sudah dihapus',html_response)
 
 #============================================================================================#
-	# Test csui_helper
-	#def test_username_and_pass_wrong(self):
-	#	username = "kezia"
-	#	password = "kezia"
-	#	with self.assertRaises(Exception) as context:
-	#		get_access_token(username, password)
-	#	self.assertIn("kezia", str(context.exception))
+	#Test csui_helper
+	def test_username_and_pass_wrong(self):
+		username = "kezia"
+		password = "kezia"
+		with self.assertRaises(Exception) as context:
+			get_access_token(username, password)
+		self.assertIn("kezia", str(context.exception))
 
 	def test_verify_function(self):
 		self.username = env("SSO_USERNAME")
