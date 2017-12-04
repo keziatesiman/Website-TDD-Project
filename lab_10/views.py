@@ -16,7 +16,7 @@ response = {}
 
 ### USER
 def index(request):
-    print ("#==> masuk index")
+    # print ("#==> masuk index")
     if 'user_login' in request.session:
         return HttpResponseRedirect(reverse('lab-10:dashboard'))
     else:
@@ -24,7 +24,6 @@ def index(request):
         response['connected'] = False #digunakan sebagai penanda kapan header menampilkan tombol logout
         response['name'] = 'Kezia Irene'
         html = 'lab_9/session/login.html'
-
         return render(request, html, response)
 
 def dashboard(request):
@@ -45,7 +44,6 @@ def dashboard(request):
         response['access_token'] = request.session['access_token']
         response['kode_identitas'] = request.session['kode_identitas']
         response['connected'] = True
-
         html = 'lab_10/dashboard.html'
         return render(request, html, response)
 
@@ -57,15 +55,9 @@ def movie_list(request):
     response['jsonUrlDT'] = jsonUrlDT
     response['judul'] = judul
     response['tahun'] = tahun
-
     get_data_session(request)
-
     html = 'lab_10/list.html'
     return render(request, html, response)
-response['access_token'] = request.session['access_token']
-        response['kode_identitas'] = request.session['kode_identitas']
-        response['connected'] = True
-
 
 def movie_detail(request, id):
     print ("MOVIE DETAIL = ", id)
@@ -74,7 +66,6 @@ def movie_detail(request, id):
         is_added = check_movie_in_database(request, id)
     else:
         is_added = check_movie_in_session(request, id)
-
     response['added'] = is_added
     response['movie'] = get_detail_movie(id)
     html = 'lab_10/detail.html'
@@ -84,21 +75,26 @@ def movie_detail(request, id):
 def add_watch_later(request, id):
     print ("ADD WL => ", id)
     msg = "Berhasil tambah movie ke Watch Later"
-    if get_data_user(request, 'user_login'):
-        print ("TO DB")
-        is_in_db = check_movie_in_database(request, id)
-        if not is_in_db:
-            add_item_to_database(request, id)
+    check_exist = get_detail_movie(id)
+    if str(check_exist["response"])=="b'True'" :
+        if get_data_user(request, 'user_login'):
+            print ("TO DB")
+            is_in_db = check_movie_in_database(request, id)
+            if not is_in_db:
+                add_item_to_database(request, id)
+            else:
+                msg = "Movie already exist on DATABASE! Hacking detected!"
         else:
-            msg = "Movie already exist on DATABASE! Hacking detected!"
+            print ("TO SESSION")
+            is_in_ssn = check_movie_in_session(request, id)
+            if not is_in_ssn:
+                add_item_to_session(request, id)
+            else:
+                msg = "Movie already exist on SESSION! Hacking detected!"
     else:
-        print ("TO SESSION")
-        is_in_ssn = check_movie_in_session(request, id)
-        if not is_in_ssn:
-            add_item_to_session(request, id)
-        else:
-            msg = "Movie already exist on SESSION! Hacking detected!"
-
+        msg = "Movie tidak dapat ditambahkan : id tidak ditemukan"
+        messages.error(request, msg)
+        return HttpResponseRedirect(reverse('lab-10:index'))
     messages.success(request, msg)
     return HttpResponseRedirect(reverse('lab-10:movie_detail', args=(id,)))
 
@@ -112,7 +108,6 @@ def list_watch_later(request):
         moviesku = get_my_movies_from_session(request)
 
     watch_later_movies = get_list_movie_from_api(moviesku)
-
     response['watch_later_movies'] = watch_later_movies
     html = 'lab_10/watch_later.html'
     return render(request, html, response)

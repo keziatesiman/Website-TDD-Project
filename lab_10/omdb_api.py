@@ -1,6 +1,9 @@
 import requests
 API_KEY = "9e2ddc25" #TODO Implement, fill your OMDB API Key Here
 
+def get_api_key():
+    return API_KEY
+
 def search_movie(judul, tahun):
     print ("METHOD SEARCH MOVIE")
     get_tahun = ""
