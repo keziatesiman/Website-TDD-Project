@@ -5,6 +5,10 @@
 .navbar-default .navbar-nav>li>a {
    cursor: pointer;
 }
+
+.panel {
+  background-color: #003366; 
+}
 html {
   min-height: 100%;
   position: relative;
@@ -14,10 +18,12 @@ body {
 	margin-top: 70px;
   	height: 100%;
   	padding-bottom: 50px;
-    background-color: black;
-    color: white;
+    background-image : url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/3xEGOGX/sparkling-decorated-christmas-trees-withs-snowflakes-festive-background-with-stars-christmas-trees-on-blue-winter-seasonal-night-scene-with-snowflakes-and-pine-trees-shining-in-the-froty-night-abstract-illustration-animation-seamless-loop_eklmsudsg__F0000.png");
+    color: lightblue;
 }
-
+#myTable{
+  background-color: #006666;
+}
 
 footer p{
 	text-align: center;

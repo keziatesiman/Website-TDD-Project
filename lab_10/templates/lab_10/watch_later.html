@@ -1,9 +1,36 @@
 {% extends "lab_10/layout/base.html" %}
 
 {% block content %}
-<div class="row">
+
+<div class = "panel panel-info">
+	<div class = "panel-heading" style = "text-align: center">
+		<h2><font color = "red">Daftar Watch Later </font></h2>
+	</div>
+	<div class = "panel-body">
+		<table class ="table" id ="tabelku">
+			<tr>
+				<th> Judul </th>
+				<th> Tahun </th>
+				<th> Poster</th>
+				<th> Detail </th>
+			</tr>
+			{% for movie in watch_later_movies %}
+			<tr>
+				
+				<td> {{movie.title}}</td>
+				<td> {{movie.year}}</td>
+				<td> <img style="margin: 0px auto;display:block;" src="{{movie.poster}}"/></td>
+				<td> <a href='/lab-10/movie/detail/{{movie.imdbid}}' class='btn btn-primary'> Detail </a></td>
+			</tr>
+			{% endfor %}
+
+		</table>
+	</div>
+
+<!-- Write your comments here <div class="row">
     {% for movie in watch_later_movies %}
     <p> {{ movie }} </p>
     {% endfor %}
 </div>
 {% endblock %}
+-->
