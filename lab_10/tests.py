@@ -35,4 +35,16 @@ class Lab10UnitTest(TestCase):
 		session.save()
 		response = self.client.get('/lab-10/')
 		self.assertEqual(response.status_code, 302)
-		
+
+	def test_profile(self):
+		self.username = env("SSO_USERNAME")
+		self.password = env("SSO_PASSWORD")
+		response_post = self.client.post(reverse('lab-9:auth_login'), {'username': self.username, 'password': self.password})
+		response = self.client.get('/lab-9/profile/')
+		html_response = response.content.decode('utf8')
+		self.assertIn('kezia.irene',html_response)
+		#test jika user belum ada pada database (pertama kali login)
+		response_post = self.client.get(reverse('lab-10:dashboard'))
+		self.assertTemplateUsed(response_post, 'lab_10/dashboard.html')
+		#logout
+		response_post = self.client.post(reverse('lab-9:auth_logout'))
