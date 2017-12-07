@@ -20,7 +20,7 @@ def search_movie(judul, tahun):
         count_results = resp['totalResults']
 
         #cukup ambil 30 data saja
-        cp = (int(count_results) / 10)
+        cp = (int(count_results) // 10)
         if cp > 3: pages = 3
         elif cp > 0 and cp <= 3: pages = cp
         else: pages = 1
