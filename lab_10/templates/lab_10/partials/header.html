@@ -9,8 +9,9 @@
       <a class="navbar-brand" href="{% url 'lab-10:index' %}">Home</a>
     </div>
     {% if connected %}
-     <a style="margin-top: 10px" href="{% url 'lab-9:auth_logout' %}" class="btn btn-danger pull-right" onclick="return confirm('Anda yakin akan log out?')">
+     <a id="logout-btn" style="margin-top: 10px" href="{% url 'lab-9:auth_logout' %}" class="btn btn-danger pull-right" onclick="return confirm('Anda yakin akan log out?')">
             Logout </a><p class="navbar-text pull-right">Anda Masuk sebagai : {{author}} ({{kode_identitas}})</p>
     {% endif %}
   </div>
 </nav>
+

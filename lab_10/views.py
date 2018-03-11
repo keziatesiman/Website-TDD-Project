@@ -30,6 +30,7 @@ def dashboard(request):
     print ("#==> dashboard")
 
     if not 'user_login' in request.session.keys():
+        response['connected'] = False
         return HttpResponseRedirect(reverse('lab-10:index'))
     else:
         set_data_for_session(request)

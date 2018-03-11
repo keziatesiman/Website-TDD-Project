@@ -27,6 +27,7 @@ import lab_7.urls as lab_7
 import lab_8.urls as lab_8
 import lab_9.urls as lab_9
 import lab_10.urls as lab_10
+import dashboard.urls as dashboard
 
 from django.views.generic import RedirectView
 
@@ -44,6 +45,7 @@ urlpatterns = [
     url(r'^lab-8/', include(lab_8, namespace='lab-8')),
     url(r'^lab-9/', include(lab_9, namespace='lab-9')),
     url(r'^lab-10/', include(lab_10, namespace='lab-10')),
+    url(r'^dashboard/', include(dashboard, namespace='dashboard')),
+    url(r'^$', RedirectView.as_view(url= '/dashboard/', permanent='true'), name='redirect_landing_page')
 
-    url(r'^$', RedirectView.as_view(url= '/lab-4/', permanent='true'), name='redirect_landing_page')
 ]
