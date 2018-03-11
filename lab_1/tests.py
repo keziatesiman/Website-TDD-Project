@@ -32,8 +32,8 @@ class Lab1UnitTest(TestCase):
 
     def test_calculate_age_is_correct(self):
         self.assertEqual(0, calculate_age(date.today().year))
-        self.assertEqual(17, calculate_age(2000))
-        self.assertEqual(27, calculate_age(1990))
+        self.assertEqual(18, calculate_age(2000))
+        self.assertEqual(28, calculate_age(1990))
 
 
     def test_index_contains_age(self):
